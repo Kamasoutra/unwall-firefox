@@ -1,0 +1,18 @@
+Politique de confidentialité — Unwall — Lecture automatique
+Version du 18 octobre 2026
+
+Cette extension indépendante détecte localement les articles payants dans les pages ouvertes et permet de les ouvrir avec le service tiers https://unwall.app/. Elle n’est pas affiliée à ce service.
+
+Données transmises
+Lors d’une ouverture automatique ou manuelle dans Unwall, l’adresse de l’article est transmise à unwall.app par navigation vers son lecteur. Les paramètres de suivi usuels et le fragment sont supprimés ; les autres paramètres de l’adresse peuvent être conservés. L’ouverture automatique est active par défaut et peut être mise en pause globalement ou pour un site depuis le bouton de l’extension. Les adresses ne sont pas transmises à Unwall avant une ouverture du lecteur.
+
+La détection est réalisée localement. L’extension ne transmet pas à Unwall le contenu de la page source, ses cookies, ses mots de passe ou ses identifiants de connexion. Le service Unwall charge lui-même l’article et applique ses propres traitements. L’extension ne contrôle ni la conservation des adresses ni les traitements effectués par le service tiers.
+
+Stockage local
+L’extension conserve sur l’appareil les préférences d’activation et les sites exclus. Une adresse d’origine par onglet est conservée en mémoire pendant la session Firefox pour éviter les boucles de redirection ; elle est supprimée à la fermeture de l’onglet. L’extension ne synchronise pas ces données entre appareils et ne conserve pas d’historique de lecture permanent.
+
+Contrôle
+Le bouton de l’extension permet de suspendre les ouvertures automatiques, de définir une exception par site et de revenir à l’article d’origine. Certains liens contenant des identifiants ou paramètres sensibles et les adresses locales sont refusés. Ces filtres ne peuvent pas identifier toutes les adresses privées accessibles sur un domaine public : mettre ces sites en pause avant d’y naviguer.
+
+Télémétrie
+L’extension ne contient pas d’outil de mesure d’audience, de publicité ni de télémétrie propre. Cette déclaration concerne l’extension ; elle ne décrit pas les traitements des pages web visitées ou d’Unwall.

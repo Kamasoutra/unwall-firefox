@@ -1,0 +1,27 @@
+{
+  "addon_id": "unwall-reader@kama.local",
+  "amo_slug": "ff61080b8ce3458d99ad",
+  "version": "1.0.0",
+  "channel": "unlisted",
+  "applications": [
+    "firefox"
+  ],
+  "android_tested": false,
+  "status": "approved_signed",
+  "observed_at": "2026-10-18T19:13:57.895045+00:00",
+  "versions_url": "https://addons.mozilla.org/fr/developers/addon/ff61080b8ce3458d99ad/versions",
+  "unsigned_package": "dist/unwall-firefox-1.0.0.xpi",
+  "unsigned_sha256": "3ea9168012c6c726182eb081a91971d7ac76a4abaf3fe18dfef0ed6480a64337",
+  "validation": {
+    "errors": 0,
+    "warnings": 0
+  },
+  "amo_version_id": 6592568,
+  "amo_file_id": 5136696,
+  "version_url": "https://addons.mozilla.org/fr/developers/addon/ff61080b8ce3458d99ad/versions/6592568",
+  "reviewer_notes_saved": true,
+  "release_notes_saved": true,
+  "signed_package": "dist/signed/unwall-firefox-1.0.0-signed.xpi",
+  "signed_sha256": "8ead311d1575ccf40d0fc8511908e1b204ff1d15be45996d80c4c9b1f7ed6119",
+  "signed_installation_verified": true
+}

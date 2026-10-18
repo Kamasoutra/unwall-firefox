@@ -1,0 +1,38 @@
+{
+  "manifest_version": 3,
+  "name": "Unwall — Lecture automatique",
+  "version": "1.0.0",
+  "description": "Détecte les articles payants et les ouvre automatiquement dans le lecteur Unwall. Extension indépendante.",
+  "browser_specific_settings": {
+    "gecko": {
+      "id": "unwall-reader@kama.local",
+      "strict_min_version": "142.0",
+      "data_collection_permissions": {
+        "required": ["browsingActivity"]
+      }
+    }
+  },
+  "permissions": ["storage", "tabs", "menus", "webNavigation"],
+  "host_permissions": ["http://*/*", "https://*/*"],
+  "background": {
+    "scripts": ["shared.js", "background.js"]
+  },
+  "content_scripts": [{
+    "matches": ["http://*/*", "https://*/*"],
+    "exclude_matches": ["*://unwall.app/*", "*://*.unwall.app/*"],
+    "js": ["shared.js", "detector.js", "content.js"],
+    "run_at": "document_idle"
+  }],
+  "action": {
+    "default_title": "Unwall — Lecture automatique",
+    "default_popup": "popup/popup.html",
+    "default_icon": "icons/unwall.svg"
+  },
+  "icons": {"48": "icons/unwall.svg", "96": "icons/unwall.svg"},
+  "commands": {
+    "open-reader": {
+      "suggested_key": {"default": "Alt+Shift+U"},
+      "description": "Ouvrir cet article avec Unwall"
+    }
+  }
+}

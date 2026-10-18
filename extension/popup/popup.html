@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Unwall — Lecture automatique</title>
+  <link rel="stylesheet" href="popup.css">
+  <script src="popup.js" defer></script>
+</head>
+<body>
+  <header>
+    <a class="brand" href="https://unwall.app/" target="_blank" rel="noreferrer"><img src="../icons/unwall.svg" alt="" width="38" height="38"><span>Unwall<span class="brand-note">LE COMPAGNON FIREFOX</span></span></a>
+    <span class="version">v1.0</span>
+  </header>
+  <main>
+    <div class="eyebrow"><span id="status-dot"></span><span id="status" role="status">Connexion à l’extension…</span></div>
+    <h1>La lecture,<br>sans les <em>murs.</em></h1>
+    <p class="intro">Un article verrouillé ? Laissez Unwall ouvrir le passage.</p>
+    <section class="automation" aria-label="Lecture automatique">
+      <div><strong>Ouverture automatique</strong><span>À la détection d’un article payant</span></div>
+      <label class="switch"><input id="enabled" type="checkbox" role="switch" aria-label="Activer l’ouverture automatique" disabled><span></span></label>
+    </section>
+    <section class="site-card" aria-label="Site actuel">
+      <div class="site-label">SUR CET ONGLET <span id="site-state">—</span></div>
+      <strong id="site">Chargement…</strong>
+      <p id="site-description">Les articles ouverts sont envoyés à unwall.app.</p>
+      <button id="open" class="primary" disabled>Lire avec Unwall <span aria-hidden="true">↗</span></button>
+      <button id="original" class="secondary" hidden>Revenir à l’article original <span aria-hidden="true">↩</span></button>
+      <button id="exclude" class="text-button" disabled>Mettre ce site en pause</button>
+    </section>
+    <details id="exceptions"><summary>Sites en pause <span id="exception-count">0</span></summary><ul id="exception-list"></ul></details>
+    <p id="error" class="error" role="alert" hidden></p>
+  </main>
+  <footer><span class="key">⌥ ⇧ U</span><span>Le raccourci vers votre lecture.</span></footer>
+  <p class="privacy">Détection locale · Seule l’URL ouverte part vers Unwall.<br>Service tiers, résultat selon les sites. Extension indépendante.</p>
+</body>
+</html>

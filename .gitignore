@@ -1,0 +1,9 @@
+node_modules/
+dist/
+artifacts/
+web-ext-artifacts/
+.DS_Store
+.env
+.env.*
+web-ext-config.cjs
+web-ext-config.mjs
