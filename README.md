@@ -56,7 +56,7 @@ npm run build
 npm start
 ```
 
-Le paquet produit est `dist/unwall-firefox-1.0.0.xpi`. `npm start` lance un profil de développement distinct via `web-ext`.
+La branche principale prépare la version **1.1.0**, avec un lien vers ce dépôt dans le manifeste et l’interface, ainsi que les adaptations Android. Le paquet de développement produit est `dist/unwall-firefox-1.1.0.xpi`, non signé. `npm start` lance un profil de développement distinct via `web-ext`. La release signée 1.0.0 reste disponible pour Firefox bureau.
 
 ```sh
 npm run test:firefox
@@ -71,5 +71,15 @@ LIVE_ARTICLE_URL='https://un-site-de-presse.fr/un-article' npm run test:firefox
 ```
 
 Les captures et observations sont écrites dans `artifacts/`. Un test de redirection ne constitue pas à lui seul une preuve de récupération intégrale du texte.
+
+La version 1.1.0 a aussi passé les scénarios de navigation et de rendu dans **Firefox 158.0 sur un émulateur Android 16 arm64**. Les API de menus et de raccourcis clavier, indisponibles sur Android, sont facultatives ; l’interface tactile masque le raccourci clavier et agrandit les commandes. Ces vérifications ne remplacent pas un essai sur un téléphone physique. Le popup a été vérifié comme page d’extension dans le moteur mobile ; son ouverture depuis le menu natif de Firefox reste à vérifier après signature.
+
+Avec Firefox Android installé sur un émulateur démarré et ADB disponible :
+
+```sh
+ANDROID_SERIAL=emulator-5560 npm run test:android
+```
+
+Le proxy de test utilise l’adresse hôte d’un émulateur Android standard (`10.0.2.2`). Définir `UNWALL_PROXY_HOST` pour un autre environnement. Les tests lancent Firefox avec un profil Gecko isolé et les paramètres d’automatisation Mozilla pour éviter les écrans de premier démarrage. Ils ne doivent pas être lancés sur un téléphone personnel en cours d’utilisation.
 
 Références : [format du manifeste Firefox](https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/manifest.json), [chargement temporaire](https://extensionworkshop.com/documentation/develop/temporary-installation-in-firefox/), [signature des extensions](https://extensionworkshop.com/documentation/publish/signing-and-distribution-overview/).

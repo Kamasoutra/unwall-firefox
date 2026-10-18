@@ -99,17 +99,18 @@ browser.tabs.onRemoved.addListener(id => browser.storage.session.remove(`tab:${i
 browser.webNavigation.onHistoryStateUpdated.addListener(details => {
   if (details.frameId === 0) browser.tabs.sendMessage(details.tabId, { type: "RESCAN" }).catch(() => {});
 });
-browser.commands.onCommand.addListener(async command => {
+browser.commands?.onCommand.addListener(async command => {
   if (command === "open-reader") {
     try { await openReader(await activeTab()); } catch (error) { console.error("Unwall:", error); }
   }
 });
 browser.runtime.onInstalled.addListener(async () => {
+  if (!browser.menus) return;
   await browser.menus.removeAll();
   browser.menus.create({ id: "unwall-link", title: "Lire avec Unwall", contexts: ["link"], targetUrlPatterns: ["http://*/*", "https://*/*"] });
   browser.menus.create({ id: "unwall-page", title: "Lire cette page avec Unwall", contexts: ["page"] });
 });
-browser.menus.onClicked.addListener(async (info, tab) => {
+browser.menus?.onClicked.addListener(async (info, tab) => {
   try {
     if (info.menuItemId === "unwall-link") {
       const url = Unwall.readerUrl(info.linkUrl);

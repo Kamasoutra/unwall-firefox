@@ -1,9 +1,11 @@
 {
   "manifest_version": 3,
   "name": "Unwall — Lecture automatique",
-  "version": "1.0.0",
+  "version": "1.1.0",
+  "homepage_url": "https://github.com/Kamasoutra/unwall-firefox",
   "description": "Détecte les articles payants et les ouvre automatiquement dans le lecteur Unwall. Extension indépendante.",
   "browser_specific_settings": {
+    "gecko_android": {"strict_min_version": "142.0"},
     "gecko": {
       "id": "unwall-reader@kama.local",
       "strict_min_version": "142.0",

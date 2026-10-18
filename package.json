@@ -1,14 +1,15 @@
 {
   "name": "unwall-firefox",
-  "version": "1.0.0",
-  "description": "Extension Firefox indépendante pour ouvrir automatiquement les articles payants avec Unwall.",
+  "version": "1.1.0",
+  "description": "Extension Firefox ind\u00e9pendante pour ouvrir automatiquement les articles payants avec Unwall.",
   "scripts": {
     "test": "node --test tests/*.test.cjs",
     "lint": "web-ext lint --source-dir extension --warnings-as-errors",
-    "build": "web-ext build --source-dir extension --artifacts-dir dist --filename unwall-firefox-1.0.0.xpi --overwrite-dest",
+    "build": "web-ext build --source-dir extension --artifacts-dir dist --filename unwall-firefox-1.1.0.xpi --overwrite-dest",
     "start": "web-ext run --source-dir extension --firefox /Applications/Firefox.app/Contents/MacOS/firefox",
     "test:firefox": "node scripts/test-firefox.cjs",
-    "sign": "web-ext sign --source-dir extension --artifacts-dir dist/signed --channel unlisted --amo-metadata mozilla/amo-metadata.json --no-config-discovery --no-input"
+    "sign": "web-ext sign --source-dir extension --artifacts-dir dist/signed --channel unlisted --amo-metadata mozilla/amo-metadata.json --no-config-discovery --no-input",
+    "test:android": "UNWALL_ANDROID=1 node scripts/test-firefox.cjs"
   },
   "type": "commonjs",
   "devDependencies": {
@@ -17,5 +18,13 @@
     "selenium-webdriver": "^4.51.0",
     "web-ext": "^10.8.0"
   },
-  "private": true
+  "private": true,
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Kamasoutra/unwall-firefox.git"
+  },
+  "homepage": "https://github.com/Kamasoutra/unwall-firefox",
+  "bugs": {
+    "url": "https://github.com/Kamasoutra/unwall-firefox/issues"
+  }
 }

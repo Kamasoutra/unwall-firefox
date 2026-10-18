@@ -51,3 +51,7 @@ $("exclude").addEventListener("click", () => request({ type: "TOGGLE_SITE" }));
 $("open").addEventListener("click", () => request({ type: "OPEN" }, true));
 $("original").addEventListener("click", () => request({ type: "ORIGINAL" }, true));
 request({ type: "GET_STATE" });
+browser.runtime.getPlatformInfo().then(platform => {
+  document.body.classList.toggle("mobile", platform.os === "android");
+  document.querySelector("footer").hidden = platform.os === "android";
+});

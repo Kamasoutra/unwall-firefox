@@ -7,6 +7,8 @@ const firefox = require("selenium-webdriver/firefox");
 const { download } = require("geckodriver");
 
 const root = path.resolve(__dirname, "..");
+const android = process.env.UNWALL_ANDROID === "1";
+const manifest = require("../extension/manifest.json");
 const host = "news.unwall-fixture.org";
 const source = route => `http://${host}/${route}`;
 const pause = ms => new Promise(resolve => setTimeout(resolve, ms));
@@ -26,21 +28,32 @@ async function main() {
   await new Promise(resolve => server.listen(0, "127.0.0.1", resolve));
   const port = server.address().port;
   const options = new firefox.Options()
-    .setBinary(process.env.FIREFOX_BINARY || "/Applications/Firefox.app/Contents/MacOS/firefox")
-    .addArguments("-no-remote")
     .setPreference("network.proxy.type", 1)
-    .setPreference("network.proxy.http", "127.0.0.1")
+    .setPreference("network.proxy.http", process.env.UNWALL_PROXY_HOST || (android ? "10.0.2.2" : "127.0.0.1"))
     .setPreference("network.proxy.http_port", port)
     .setPreference("network.proxy.share_proxy_settings", false)
     .setPreference("network.proxy.no_proxies_on", "localhost,127.0.0.1")
     .setPreference("browser.shell.checkDefaultBrowser", false)
     .setPreference("browser.tabs.warnOnClose", false);
+  if (android) {
+    options.enableMobile(process.env.FIREFOX_ANDROID_PACKAGE || "org.mozilla.firefox", process.env.FIREFOX_ANDROID_ACTIVITY || null);
+    options.set("moz:firefoxOptions", {
+      ...options.get("moz:firefoxOptions"),
+      androidDeviceSerial: process.env.ANDROID_SERIAL || "emulator-5560",
+      androidIntentArguments: ["-a", "android.intent.action.VIEW", "-d", "about:blank", "--ez", "performancetest", "true"]
+    });
+  } else {
+    options.setBinary(process.env.FIREFOX_BINARY || "/Applications/Firefox.app/Contents/MacOS/firefox").addArguments("-no-remote");
+  }
   const binary = await download();
+  const service = new firefox.ServiceBuilder(binary).addArguments("--allow-system-access").setStdio(process.env.UNWALL_WEBDRIVER_LOG ? "inherit" : "ignore");
+  if (process.env.UNWALL_WEBDRIVER_LOG) service.addArguments("--log", "debug");
+  if (android) service.addArguments("--android-storage", "sdcard");
   driver = await new Builder().forBrowser("firefox").setFirefoxOptions(options)
-    .setFirefoxService(new firefox.ServiceBuilder(binary).addArguments("--allow-system-access").setStdio("ignore")).build();
+    .setFirefoxService(service).build();
   await driver.manage().setTimeouts({ pageLoad: 45000, script: 20000 });
-  await driver.manage().window().setRect({ width: 1100, height: 900 });
-  await driver.installAddon(path.join(root, "dist/unwall-firefox-1.0.0.xpi"), true);
+  if (!android) await driver.manage().window().setRect({ width: 1100, height: 900 });
+  await driver.installAddon(process.env.UNWALL_XPI || path.join(root, `dist/unwall-firefox-${manifest.version}.xpi`), true);
   await driver.setContext("chrome");
   const popupUrl = await driver.executeScript('return WebExtensionPolicy.getByID("unwall-reader@kama.local").getURL("popup/popup.html")');
   await driver.setContext("content");
@@ -123,12 +136,25 @@ async function main() {
   await navigate("free-popup");
   await invoke(async id => browser.tabs.update(id, { active: true }), tabId);
   const popupState = await invoke(async () => browser.runtime.sendMessage({ type: "GET_STATE" }));
-  await invoke(async value => { render(value); return true; }, popupState);
+  if (android) {
+    await driver.switchTo().window(articleHandle);
+    await driver.get(popupUrl);
+    await driver.wait(async () => driver.executeScript('return innerWidth > 0 && document.body.getBoundingClientRect().height > 0'), 10000);
+    await driver.executeScript('render(arguments[0])', popupState);
+  } else {
+    await invoke(async value => { render(value); return true; }, popupState);
+  }
   const popup = await driver.findElement(By.css("body")).takeScreenshot();
-  await fs.writeFile(path.join(root, "artifacts/popup.png"), popup, "base64");
+  await fs.writeFile(path.join(root, android ? "artifacts/popup-android.png" : "artifacts/popup.png"), popup, "base64");
   assert.equal(popupState.site, host);
   assert.equal(popupState.enabled, true);
-  console.log("PASS interface du popup rendue dans Firefox (artifacts/popup.png)");
+  console.log(`PASS interface du popup rendue dans Firefox ${android ? "Android" : "bureau"}`);
+  if (android) {
+    assert.equal(await driver.executeScript('return document.body.classList.contains("mobile")'), true);
+    assert.equal(await driver.executeScript('return document.documentElement.scrollWidth <= innerWidth'), true);
+    assert.equal(await driver.executeScript('return document.querySelector("footer").hidden'), true);
+    console.log("PASS interface tactile sans débordement ni raccourci clavier bureau");
+  }
 
   if (process.env.LIVE_ARTICLE_URL) {
     await driver.switchTo().window(articleHandle);
