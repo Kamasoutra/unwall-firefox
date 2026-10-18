@@ -31,3 +31,9 @@ npm run sign
 Cette commande envoie les sources de `extension/` à l’API officielle Mozilla, demande une signature privée et télécharge le résultat dans `dist/signed/`. Elle requiert un compte développeur configuré et ses conditions acceptées. Ne pas écrire les clés dans le dépôt ni les communiquer dans la conversation. Les notes de revue sont dans `amo-metadata.json` ; une politique de confidentialité pourra être ajoutée dans le portail si nécessaire.
 
 Références : [soumission privée](https://extensionworkshop.com/documentation/publish/submitting-an-add-on/#self-distribution), [commande officielle web-ext sign](https://extensionworkshop.com/documentation/develop/web-ext-command-reference/#web-ext-sign).
+
+## Prochaine version préparée
+
+La version 1.1.0 ajoute les liens GitHub et les adaptations Android. Les scénarios passent sur Firefox bureau et le moteur Firefox Android en émulateur ; l’installation mobile permanente et le menu natif restent à vérifier après signature. Le paquet non signé est `dist/unwall-firefox-1.1.0.xpi`. Il n’a pas encore été soumis. Les descriptions proposées sont dans `listing.fr.md`, les notes de revue actuelles dans `reviewer-notes.txt`. La page d’accueil GitHub a été enregistrée dans la fiche Mozilla du module ; la description publique et le changement de canal restent à finaliser.
+
+Les sources originales ne nécessitent aucune compilation : les fichiers de `extension/` sont directement empaquetés. Le dépôt GitHub fournit le code, les tests et les instructions ; une archive complémentaire peut être jointe pour la revue, mais les sources exécutables lisibles sont déjà dans le XPI.
